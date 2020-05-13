@@ -448,9 +448,10 @@ class State(models.Model):
     date_retired = models.DateField(blank=True, null=True)
     state_name = models.CharField(max_length=50)
     state_abbreviation = models.CharField(max_length=3)
+    created_by = models.CharField(max_length=150, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'state'
 
 
