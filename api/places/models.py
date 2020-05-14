@@ -11,7 +11,7 @@ class AddressAlias(models.Model):
     alias_comment = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_alias'
 
 
@@ -21,7 +21,7 @@ class AddressAliasTypeAut(models.Model):
     description = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_alias_type_aut'
 
 
@@ -35,7 +35,7 @@ class AddressDefaultGeocode(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_default_geocode'
 
 
@@ -77,7 +77,7 @@ class AddressDetail(models.Model):
     primary_secondary = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_detail'
 
 
@@ -90,7 +90,7 @@ class AddressMeshBlock2011(models.Model):
     mb_2011_pid = models.ForeignKey('Mb2011', models.DO_NOTHING, db_column='mb_2011_pid')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_mesh_block_2011'
 
 
@@ -103,7 +103,7 @@ class AddressMeshBlock2016(models.Model):
     mb_2016_pid = models.ForeignKey('Mb2016', models.DO_NOTHING, db_column='mb_2016_pid')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_mesh_block_2016'
 
 
@@ -115,7 +115,7 @@ class AddressSite(models.Model):
     address_site_name = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_site'
 
 
@@ -135,7 +135,7 @@ class AddressSiteGeocode(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_site_geocode'
 
 
@@ -145,98 +145,8 @@ class AddressTypeAut(models.Model):
     description = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address_type_aut'
-
-
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
-
-
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
 
 
 class DjangoMigrations(models.Model):
@@ -245,18 +155,8 @@ class DjangoMigrations(models.Model):
     applied = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
 
 
 class FlatTypeAut(models.Model):
@@ -265,7 +165,7 @@ class FlatTypeAut(models.Model):
     description = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'flat_type_aut'
 
 
@@ -275,7 +175,7 @@ class GeocodeReliabilityAut(models.Model):
     description = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'geocode_reliability_aut'
 
 
@@ -285,7 +185,7 @@ class GeocodeTypeAut(models.Model):
     description = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'geocode_type_aut'
 
 
@@ -295,7 +195,7 @@ class GeocodedLevelTypeAut(models.Model):
     description = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'geocoded_level_type_aut'
 
 
@@ -305,7 +205,7 @@ class LevelTypeAut(models.Model):
     description = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'level_type_aut'
 
 
@@ -321,7 +221,7 @@ class Locality(models.Model):
     gnaf_reliability_code = models.ForeignKey(GeocodeReliabilityAut, models.DO_NOTHING, db_column='gnaf_reliability_code')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality'
 
 
@@ -336,7 +236,7 @@ class LocalityAlias(models.Model):
     state_pid = models.CharField(max_length=15)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality_alias'
 
 
@@ -346,7 +246,7 @@ class LocalityAliasTypeAut(models.Model):
     description = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality_alias_type_aut'
 
 
@@ -356,7 +256,7 @@ class LocalityClassAut(models.Model):
     description = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality_class_aut'
 
 
@@ -368,7 +268,7 @@ class LocalityNeighbour(models.Model):
     neighbour_locality_pid = models.ForeignKey(Locality, models.DO_NOTHING, db_column='neighbour_locality_pid', related_name='locality_neighbour_neighbour_locality_pid')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality_neighbour'
 
 
@@ -382,7 +282,7 @@ class LocalityPoint(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'locality_point'
 
 
@@ -393,7 +293,7 @@ class Mb2011(models.Model):
     mb_2011_code = models.CharField(max_length=15)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mb_2011'
 
 
@@ -404,7 +304,7 @@ class Mb2016(models.Model):
     mb_2016_code = models.CharField(max_length=15)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mb_2016'
 
 
@@ -414,7 +314,7 @@ class MbMatchCodeAut(models.Model):
     description = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'mb_match_code_aut'
 
 
@@ -428,7 +328,7 @@ class PrimarySecondary(models.Model):
     ps_join_comment = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'primary_secondary'
 
 
@@ -438,7 +338,7 @@ class PsJoinTypeAut(models.Model):
     description = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'ps_join_type_aut'
 
 
@@ -461,7 +361,7 @@ class StreetClassAut(models.Model):
     description = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_class_aut'
 
 
@@ -479,7 +379,7 @@ class StreetLocality(models.Model):
     gnaf_reliability_code = models.ForeignKey(GeocodeReliabilityAut, models.DO_NOTHING, db_column='gnaf_reliability_code')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_locality'
 
 
@@ -494,7 +394,7 @@ class StreetLocalityAlias(models.Model):
     alias_type_code = models.ForeignKey('StreetLocalityAliasTypeAut', models.DO_NOTHING, db_column='alias_type_code')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_locality_alias'
 
 
@@ -504,7 +404,7 @@ class StreetLocalityAliasTypeAut(models.Model):
     description = models.CharField(max_length=15, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_locality_alias_type_aut'
 
 
@@ -519,7 +419,7 @@ class StreetLocalityPoint(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_locality_point'
 
 
@@ -529,7 +429,7 @@ class StreetSuffixAut(models.Model):
     description = models.CharField(max_length=30, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_suffix_aut'
 
 
@@ -539,5 +439,5 @@ class StreetTypeAut(models.Model):
     description = models.CharField(max_length=15, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'street_type_aut'
