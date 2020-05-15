@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import generics
+from rest_framework import viewsets
 
 from django.http import Http404
 
 from django.contrib.auth.models import User
 
-from places.models import State
-from places.serializers import StateSerializer, UserSerializer
+from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
+from places.serializers import StateSerializer, UserSerializer, LocalitySerializer, LocalityClassAutSerializer, GeocodeReliabilityAutSerializer
 
 
 class APIRoot(APIView):
@@ -84,29 +85,65 @@ class StateDetail(APIView):
     """
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self, state_abbreviation):
+    def get_object(self, state_pid):
         try:
-            return State.objects.get(state_abbreviation=state_abbreviation)
+            return State.objects.get(state_pid=state_pid)
         except State.DoesNotExist:
             raise Http404
 
-    def get(self, request, state_abbreviation, format=None):
-        state = self.get_object(state_abbreviation)
+    def get(self, request, state_pid, format=None):
+        state = self.get_object(state_pid)
         context = {'request': request}
         serializer = StateSerializer(state, context=context)
         return Response(serializer.data)
 
-    def put(self, request, state_abbreviation, format=None):
-        state = self.get_object(state_abbreviation)
+    def put(self, request, state_pid, format=None):
+        state = self.get_object(state_pid)
         serializer = StateSerializer(state, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, state_abbreviation, format=None):
-        state = self.get_object(state_abbreviation)
+    def delete(self, request, state_pid, format=None):
+        state = self.get_object(state_pid)
         state.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+'''
+class StateViewSet(viewsets.ModelViewSet):
+    """
+
+    """
+    queryset = State.objects.all()
+    serializer_class = StateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'state_pid'
+'''
+
+class LocalityViewSet(viewsets.ModelViewSet):
+    """
+    Locality view set with list, create, retrieve, update and destroy
+    """
+    queryset = Locality.objects.all()
+    serializer_class = LocalitySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class LocalityClassAutViewSet(viewsets.ModelViewSet):
+    """
+
+    """
+    queryset = LocalityClassAut.objects.all()
+    serializer_class = LocalityClassAutSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
+    """
+
+    """
+    queryset = GeocodeReliabilityAut.objects.all()
+    serializer_class = GeocodeReliabilityAutSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
