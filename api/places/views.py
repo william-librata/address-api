@@ -6,6 +6,7 @@ from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.schemas.openapi import AutoSchema
 
 from django.http import Http404
 
