@@ -126,7 +126,12 @@ class LocalityViewSet(viewsets.ModelViewSet):
     """
     Locality view set with list, create, retrieve, update and destroy
     """
-    queryset = Locality.objects.all()
+    queryset = Locality.objects.select_related().only('locality_pid',
+                                                      'locality_name',
+                                                      'primary_postcode',
+                                                      'state_pid__state_name',
+                                                      'locality_class_code__name',
+                                                      'gnaf_reliability_code__name')
     serializer_class = LocalitySerializer
     permission_classes = [permissions.IsAuthenticated]
 

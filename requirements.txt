@@ -2,3 +2,6 @@ django
 djangorestframework
 
 psycopg2
+
+pyyaml
+uritemplate

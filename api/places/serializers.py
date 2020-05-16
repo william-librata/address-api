@@ -17,12 +17,16 @@ class StateSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'state_pid', 'date_created', 'date_retired', 'state_name', 'state_abbreviation', 'created_by']
 
 
-class LocalitySerializer(serializers.HyperlinkedModelSerializer):
-    state_pid = serializers.HyperlinkedRelatedField(view_name='state-detail', read_only=True, lookup_field='state_pid')
+class LocalitySerializer(serializers.ModelSerializer):
+    state_name = serializers.CharField(source='state_pid.state_name')
+    locality_class_name = serializers.CharField(source='locality_class_code.name')
+    geocode_reliability_name = serializers.CharField(source='gnaf_reliability_code.name')
 
     class Meta:
         model = Locality
-        fields = '__all__'
+        fields = ['locality_pid', 'locality_name', 'primary_postcode', 'state_pid',
+                  'state_name', 'locality_class_code', 'locality_class_name',
+                  'gnaf_reliability_code', 'geocode_reliability_name']
 
 
 class LocalityClassAutSerializer(serializers.HyperlinkedModelSerializer):
