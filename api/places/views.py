@@ -60,6 +60,7 @@ class UserDetail(APIView):
         return Response(serializer.data)
 
 
+'''
 class StateList(APIView):
     """
     List all state, or create a new state
@@ -67,7 +68,7 @@ class StateList(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
-        state = State.objects.all()
+        state = State.objects.all().prefetch_related('created_by').only('state_pid', 'date_created', 'date_retired', 'state_name', 'state_abbreviation', 'created_by__username')
         context = {'request': request}
         serializer = StateSerializer(state, many=True, context=context)
         return Response(serializer.data)
@@ -120,20 +121,25 @@ class StateViewSet(viewsets.ModelViewSet):
     serializer_class = StateSerializer
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'state_pid'
-'''
+
 
 class LocalityViewSet(viewsets.ModelViewSet):
     """
     Locality view set with list, create, retrieve, update and destroy
     """
-    queryset = Locality.objects.select_related().only('locality_pid',
-                                                      'locality_name',
-                                                      'primary_postcode',
-                                                      'state_pid__state_name',
-                                                      'locality_class_code__name',
-                                                      'gnaf_reliability_code__name')
+    queryset = Locality.objects.\
+        select_related('state').\
+        select_related('locality_class_code').\
+        select_related('gnaf_reliability_code').\
+        only('locality_pid',
+             'locality_name',
+             'primary_postcode',
+             'state_pid__state_name',
+             'locality_class_code__name',
+             'gnaf_reliability_code__name')
     serializer_class = LocalitySerializer
     permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'locality_pid'
 
 
 class LocalityClassAutViewSet(viewsets.ModelViewSet):
@@ -152,4 +158,6 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     queryset = GeocodeReliabilityAut.objects.all()
     serializer_class = GeocodeReliabilityAutSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
 
