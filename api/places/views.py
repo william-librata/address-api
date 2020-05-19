@@ -13,7 +13,9 @@ from django.http import Http404
 from django.contrib.auth.models import User
 
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
-from places.serializers import StateSerializer, UserSerializer, LocalitySerializer, LocalityClassAutSerializer, GeocodeReliabilityAutSerializer
+from places.serializers import StateSerializer, UserSerializer, \
+    LocalitySerializer, LocalityClassAutSerializer, \
+    GeocodeReliabilityAutSerializer, StateUserSerializer
 
 
 class APIRoot(APIView):
@@ -128,7 +130,7 @@ class LocalityViewSet(viewsets.ModelViewSet):
     Locality view set with list, create, retrieve, update and destroy
     """
     queryset = Locality.objects.\
-        select_related('state').\
+        select_related('state_pid').\
         select_related('locality_class_code').\
         select_related('gnaf_reliability_code').\
         only('locality_pid',
@@ -161,3 +163,14 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
 
 
 
+class StateUserViewSet(viewsets.ModelViewSet):
+    """
+
+    """
+    queryset = State.objects.raw('SELECT state_pid, state_name, username '
+                                 'FROM state s '
+                                 'LEFT JOIN auth_user au'
+                                 '  ON s.created_by = au.id')
+
+    serializer_class = StateUserSerializer
+    permission_classes = [permissions.IsAuthenticated]

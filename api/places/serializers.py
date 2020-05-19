@@ -12,8 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='state-detail', read_only=True, lookup_field='state_pid')
-    #created_by = serializers.SlugRelatedField(slug_field='username', queryset=User.objects.select_related().only('username'))
-    #created_by = serializers.ReadOnlyField(source='created_by.username', read_only=True)
     created_by = serializers.CharField(allow_null=True)
 
     class Meta:
@@ -45,3 +43,13 @@ class GeocodeReliabilityAutSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = GeocodeReliabilityAut
         fields = '__all__'
+
+
+class StateUserSerializer(serializers.ModelSerializer):
+    state_pid = serializers.CharField()
+    state_name = serializers.CharField()
+    username = serializers.CharField()
+
+    class Meta:
+        model = State
+        fields = ['state_pid', 'state_name', 'username']

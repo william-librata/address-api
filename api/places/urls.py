@@ -7,6 +7,7 @@ from places import views
 router = DefaultRouter()
 router.register(r'locality', views.LocalityViewSet)
 router.register(r'state', views.StateViewSet)
+router.register(r'stateuser', views.StateUserViewSet, basename='stateuser')
 router.register(r'localityclassaut', views.LocalityClassAutViewSet)
 router.register(r'geocodereliabilityaut', views.GeocodeReliabilityAutViewSet)
 
