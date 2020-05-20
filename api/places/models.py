@@ -348,8 +348,6 @@ class State(models.Model):
     date_retired = models.DateField(blank=True, null=True)
     state_name = models.CharField(max_length=50)
     state_abbreviation = models.CharField(max_length=3)
-    created_by = models.ForeignKey('auth.User', models.DO_NOTHING, blank=True, null=True,
-                                   db_column='created_by', db_index=False, db_constraint=False, to_field='id')
 
     class Meta:
         managed = True

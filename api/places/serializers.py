@@ -12,25 +12,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 class StateSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='state-detail', read_only=True, lookup_field='state_pid')
-    created_by = serializers.CharField(allow_null=True)
 
     class Meta:
         model = State
-        fields = ['url', 'state_pid', 'date_created', 'date_retired', 'state_name', 'state_abbreviation', 'created_by']
+        fields = '__all__'
 
 
 class LocalitySerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='locality-detail', read_only=True, lookup_field='locality_pid')
-    state_name = serializers.CharField(source='state_pid.state_name', allow_null=True)
-    locality_class_name = serializers.CharField(source='locality_class_code.name', allow_null=True)
-    geocode_reliability_name = serializers.CharField(source='gnaf_reliability_code.name', allow_null=True)
-    state_pid = serializers.HyperlinkedRelatedField(view_name='state-detail', read_only=True, lookup_field='state_pid', allow_null=True)
+    state_pid = serializers.HyperlinkedRelatedField(view_name='state-detail', read_only=True, lookup_field='state_pid')
 
     class Meta:
         model = Locality
-        fields = ['url', 'locality_pid', 'locality_name', 'primary_postcode', 'state_pid',
-                  'state_name', 'locality_class_code', 'locality_class_name',
-                  'gnaf_reliability_code', 'geocode_reliability_name']
+        fields = '__all__'
 
 
 class LocalityClassAutSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,11 +39,3 @@ class GeocodeReliabilityAutSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class StateUserSerializer(serializers.ModelSerializer):
-    state_pid = serializers.CharField()
-    state_name = serializers.CharField()
-    username = serializers.CharField()
-
-    class Meta:
-        model = State
-        fields = ['state_pid', 'state_name', 'username']
