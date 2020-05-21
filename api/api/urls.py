@@ -17,6 +17,6 @@ urlpatterns = [
             description='API to get address and places information',
             version='0.0.1',
             urlconf='api.urls',
-        ), name='openapi-schema')
-
+        ), name='openapi-schema'),
+    path('o/', include(('oauth2_provider.urls', 'oauth2_provider_app', ), namespace='oauth2_provider'), ),
 ]
