@@ -14,6 +14,8 @@ from django.http import Http404
 
 from django.contrib.auth.models import User
 
+from postal.parser import parse_address
+
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
@@ -28,6 +30,7 @@ class UserList(APIView):
 
     def get(self, request, format=None):
         user = User.objects.all()
+        import pdb;pdb.set_trace()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
 
@@ -91,3 +94,10 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     serializer_class = GeocodeReliabilityAutSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+'''
+class ParseAddressView(APIView):
+    def get(self, request, address, format=None):
+        parsed_address = parse_address(address)
+        serializer = ParseAddressSerializer(parsed_address)
+        return serializer.data
+'''
