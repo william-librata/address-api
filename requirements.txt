@@ -4,3 +4,6 @@ djangorestframework-simplejwt
 psycopg2
 pyyaml
 uritemplate
+
+django-oauth-toolkit
+

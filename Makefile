@@ -5,6 +5,12 @@ init:
 	sudo apt-get update
 	# install software
 	sudo apt-get install libpq-dev -y
+	sudo apt-get install curl -y
+	sudo apt-get install autoconf -y
+	sudo apt-get install automake -y
+	sudo apt-get install libtool -y
+	sudo apt-get install python-dev -y
+	sudo apt-get install pkg-config -y
 	# source venv
 	source env/bin/activate; \
 	# install all necessary packages
