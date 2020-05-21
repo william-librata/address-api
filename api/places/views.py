@@ -94,10 +94,12 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     serializer_class = GeocodeReliabilityAutSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-'''
 class ParseAddressView(APIView):
+    renderer_classes = [renderers.JSONRenderer, renderers.BrowsableAPIRenderer]
+
     def get(self, request, address, format=None):
-        parsed_address = parse_address(address)
-        serializer = ParseAddressSerializer(parsed_address)
-        return serializer.data
-'''
+        # turn list into reverse dict
+        parsed_address = dict((y, x) for x, y in parse_address(address))
+        if parsed_address:
+            Response(status.HTTP_404_NOT_FOUND)
+        return Response(parsed_address, status.HTTP_200_OK)
