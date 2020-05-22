@@ -5,6 +5,7 @@ from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import viewsets
 from rest_framework import mixins
+from rest_framework.reverse import reverse
 
 from rest_framework.schemas.openapi import AutoSchema
 
@@ -20,6 +21,14 @@ from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityA
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
     GeocodeReliabilityAutSerializer, ParseAddressSerializer
+
+
+class APIRoot(APIView):
+    """
+    API root view
+    """
+    def get(self, request, format=None):
+        return Response({'documentation': reverse('swagger-ui', request=request, format=format)})
 
 
 class UserList(APIView):
@@ -55,7 +64,7 @@ class UserDetail(APIView):
 
 class StateViewSet(viewsets.ModelViewSet):
     """
-
+    State view set
     """
     queryset = State.objects.all()
     serializer_class = StateSerializer
@@ -79,7 +88,7 @@ class LocalityViewSet(viewsets.ModelViewSet):
 
 class LocalityClassAutViewSet(viewsets.ModelViewSet):
     """
-
+    Locality class aut view set
     """
     queryset = LocalityClassAut.objects.all()
     serializer_class = LocalityClassAutSerializer
@@ -88,7 +97,7 @@ class LocalityClassAutViewSet(viewsets.ModelViewSet):
 
 class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     """
-
+    Geocode reliability aut view set
     """
     queryset = GeocodeReliabilityAut.objects.all()
     serializer_class = GeocodeReliabilityAutSerializer
@@ -97,7 +106,9 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
 
 class ParseAddressViewSet(mixins.RetrieveModelMixin,
                           viewsets.GenericViewSet):
-
+    """
+    Parse address view set
+    """
     renderer_classes = [renderers.JSONRenderer,
                         renderers.BrowsableAPIRenderer]
 

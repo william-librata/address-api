@@ -27,7 +27,7 @@ def get_address_schema():
 
 
 def parse_address(address_schema, address):
-    # reverse the named tuple
+    # reverse named tuple
     result = dict((y, x) for x, y in postal_parse_address(address))
 
     # for every item in base schema, if corresponds with parsed_address, then get parsed_address value
