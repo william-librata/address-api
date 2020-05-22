@@ -1,11 +1,11 @@
 from rest_framework import status
-from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import renderers
-from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework import mixins
+
 from rest_framework.schemas.openapi import AutoSchema
 
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -14,12 +14,12 @@ from django.http import Http404
 
 from django.contrib.auth.models import User
 
-from postal.parser import parse_address
 
+from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
-    GeocodeReliabilityAutSerializer
+    GeocodeReliabilityAutSerializer, ParseAddressSerializer
 
 
 class UserList(APIView):
@@ -94,12 +94,18 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     serializer_class = GeocodeReliabilityAutSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class ParseAddressView(APIView):
-    renderer_classes = [renderers.JSONRenderer, renderers.BrowsableAPIRenderer]
 
-    def get(self, request, address, format=None):
-        # turn list into reverse dict
-        parsed_address = dict((y, x) for x, y in parse_address(address))
-        if parsed_address:
-            Response(status.HTTP_404_NOT_FOUND)
-        return Response(parsed_address, status.HTTP_200_OK)
+class ParseAddressViewSet(mixins.RetrieveModelMixin,
+                          viewsets.GenericViewSet):
+
+    renderer_classes = [renderers.JSONRenderer,
+                        renderers.BrowsableAPIRenderer]
+
+    lookup_field = 'address'
+    serializer_class = ParseAddressSerializer
+
+    def retrieve(self, request, address, *args, **kwargs):
+        address_schema = helper.get_address_schema()
+        parsed_address = helper.parse_address(address_schema, address)
+        serializer = ParseAddressSerializer(parsed_address)
+        return Response(serializer.data)
