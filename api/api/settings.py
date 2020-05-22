@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 config = configparser.ConfigParser()
 config.read(os.path.join(BASE_DIR, 'secrets.ini'))
+print(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
