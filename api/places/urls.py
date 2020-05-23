@@ -11,6 +11,7 @@ router.register(r'locality', views.LocalityViewSet)
 router.register(r'state', views.StateViewSet)
 router.register(r'localityclassaut', views.LocalityClassAutViewSet)
 router.register(r'geocodereliabilityaut', views.GeocodeReliabilityAutViewSet)
+router.register(r'geocodeaddress', views.GeocodeAddressViewSet, basename='geocodeaddress')
 
 
 urlpatterns = [

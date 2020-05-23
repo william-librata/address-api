@@ -6,6 +6,7 @@ from rest_framework import renderers
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.reverse import reverse
+from django.db.utils import ProgrammingError
 
 from rest_framework.schemas.openapi import AutoSchema
 
@@ -20,7 +21,7 @@ from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
-    GeocodeReliabilityAutSerializer, ParseAddressSerializer
+    GeocodeReliabilityAutSerializer, AddressSerializer
 
 
 class APIRoot(APIView):
@@ -113,10 +114,32 @@ class ParseAddressViewSet(mixins.RetrieveModelMixin,
                         renderers.BrowsableAPIRenderer]
 
     lookup_field = 'address'
-    serializer_class = ParseAddressSerializer
+    serializer_class = AddressSerializer
 
     def retrieve(self, request, address, *args, **kwargs):
-        address_schema = helper.get_address_schema()
-        parsed_address = helper.parse_address(address_schema, address)
-        serializer = ParseAddressSerializer(parsed_address)
+        parsed_address = helper.parse_address(address)
+        serializer = AddressSerializer(parsed_address)
         return Response(serializer.data)
+
+
+class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
+                     viewsets.GenericViewSet):
+    """
+    Geocode address view set
+    """
+    renderer_classes = [renderers.JSONRenderer,
+                        renderers.BrowsableAPIRenderer]
+
+    lookup_field = 'address'
+    serializer_class = AddressSerializer
+
+    def retrieve(self, request, address, *args, **kwargs):
+        try:
+            # geocode address
+            geocoded_address = helper.geocode_address(address)
+            serializer = AddressSerializer(geocoded_address)
+            return Response(serializer.data)
+
+        except ProgrammingError as pe:
+            return Response({'detail': 'Geocode function not found. Install geocoder from https://github.com/william-librata/geocoder'},
+                            status.HTTP_404_NOT_FOUND)

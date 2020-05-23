@@ -9,7 +9,7 @@ https://data.gov.au/dataset/ds-dga-19432f89-dc3a-4ef3-b943-5326ef1dbecc/details?
 Setup
 -----
 1. Ensure that PostgreSQL is installed. See https://www.postgresql.org/ for more details.
-1. Ensure pg_similarity is installed. See https://github.com/eulerto/pg_similarity for more details.  
+1. Ensure that geocoder is installed. See https://github.com/william-librata/geocoder for more details.  
 1. Copy secrets_template.ini in API directory to secrets.ini and fill in the details.
 1. To install (currently only for ubuntu):
     ```
