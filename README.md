@@ -33,8 +33,18 @@ Setup
     # run test
     make test
     ```
+   
+1. To test functionality:
+    ```
+    # activate virtual env
+    . env/bin/activate
+   
+    # run django dev server
+    cd api
+    ./manage.py runserver
+    ```
 
-1. Once installed, API documentation can be accessed through:
+1. API documentation can be accessed through:
     ```
     <your URL>/swagger-ui/
     ``` 
