@@ -1,21 +1,15 @@
 from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import viewsets
 from rest_framework import mixins
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
 from django.db.utils import ProgrammingError
-
-from rest_framework.schemas.openapi import AutoSchema
-
-from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-
 from django.http import Http404
-
 from django.contrib.auth.models import User
-
 
 from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
