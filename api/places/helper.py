@@ -41,7 +41,8 @@ def parse_address(address):
 
 def geocode_address(address):
     parsed_address = parse_address(address)
+    import pdb;pdb.set_trace()
     cursor = connection.cursor()
-    result = cursor.callproc('geocode', [parsed_address]).fetchall()
+    result = cursor.callproc('geocode', [parsed_address.values()]).fetchall()
     return result
 
