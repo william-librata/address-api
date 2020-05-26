@@ -15,7 +15,8 @@ from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
-    GeocodeReliabilityAutSerializer, AddressSerializer
+    GeocodeReliabilityAutSerializer, ParsedAddressSerializer, \
+    GeocodeResultSerializer
 
 
 class APIRoot(APIView):
@@ -108,11 +109,11 @@ class ParseAddressViewSet(mixins.RetrieveModelMixin,
                         renderers.BrowsableAPIRenderer]
 
     lookup_field = 'address'
-    serializer_class = AddressSerializer
+    serializer_class = ParsedAddressSerializer
 
     def retrieve(self, request, address, *args, **kwargs):
         parsed_address = helper.parse_address(address)
-        serializer = AddressSerializer(parsed_address)
+        serializer = ParsedAddressSerializer(parsed_address)
         return Response(serializer.data)
 
 
@@ -125,13 +126,13 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
                         renderers.BrowsableAPIRenderer]
 
     lookup_field = 'address'
-    serializer_class = AddressSerializer
+    serializer_class = GeocodeResultSerializer
 
     def retrieve(self, request, address, *args, **kwargs):
         try:
             # geocode address
             geocoded_address = helper.geocode_address(address)
-            serializer = AddressSerializer(geocoded_address)
+            serializer = GeocodeResultSerializer(geocoded_address)
             return Response(serializer.data)
 
         except ProgrammingError as pe:

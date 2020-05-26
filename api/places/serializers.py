@@ -39,8 +39,7 @@ class GeocodeReliabilityAutSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class AddressSerializer(serializers.Serializer):
-    address_id = serializers.CharField()
+class ParsedAddressSerializer(serializers.Serializer):
     house = serializers.CharField()
     category = serializers.CharField()
     near = serializers.CharField()
@@ -61,5 +60,9 @@ class AddressSerializer(serializers.Serializer):
     country_region = serializers.CharField()
     country = serializers.CharField()
     world_region = serializers.CharField()
+
+
+class GeocodeResultSerializer(serializers.Serializer):
+    address_detail_pid = serializers.CharField()
     latitude = serializers.CharField()
     longitude = serializers.CharField()
