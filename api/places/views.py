@@ -11,6 +11,7 @@ from django.db.utils import ProgrammingError
 from django.http import Http404
 from django.contrib.auth.models import User
 
+
 from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
 from places.serializers import StateSerializer, UserSerializer, \

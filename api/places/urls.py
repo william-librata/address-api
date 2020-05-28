@@ -6,12 +6,12 @@ from places import views
 
 
 router = SimpleRouter()
-router.register(r'parseaddress', views.ParseAddressViewSet, basename='parseaddress')
+router.register(r'parse', views.ParseAddressViewSet, basename='parse')
 router.register(r'locality', views.LocalityViewSet)
 router.register(r'state', views.StateViewSet)
 router.register(r'localityclassaut', views.LocalityClassAutViewSet)
 router.register(r'geocodereliabilityaut', views.GeocodeReliabilityAutViewSet)
-router.register(r'geocodeaddress', views.GeocodeAddressViewSet, basename='geocodeaddress')
+router.register(r'geocode', views.GeocodeAddressViewSet, basename='geocode')
 
 
 urlpatterns = [
