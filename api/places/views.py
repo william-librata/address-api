@@ -13,11 +13,11 @@ from django.contrib.auth.models import User
 
 
 from places import helper
-from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
+from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut, Address
 from places.serializers import StateSerializer, UserSerializer, \
     LocalitySerializer, LocalityClassAutSerializer, \
     GeocodeReliabilityAutSerializer, ParsedAddressSerializer, \
-    GeocodeResultSerializer
+    GeocodeResultSerializer, AddressSerializer
 
 
 class APIRoot(APIView):
@@ -101,6 +101,15 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class AddressViewSet(viewsets.ModelViewSet):
+    """
+    Address view set
+    """
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
 class ParseAddressViewSet(mixins.RetrieveModelMixin,
                           viewsets.GenericViewSet):
     """
@@ -133,7 +142,8 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
         try:
             # geocode address
             geocoded_address = helper.geocode_address(address)
-            serializer = GeocodeResultSerializer(geocoded_address)
+            serializer_context = {'request': request}
+            serializer = GeocodeResultSerializer(geocoded_address, context=serializer_context)
             return Response(serializer.data)
 
         except ProgrammingError as pe:

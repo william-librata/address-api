@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut
+from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut, Address
 from django.contrib.auth.models import User
 
 
@@ -39,6 +39,12 @@ class GeocodeReliabilityAutSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+
 class ParsedAddressSerializer(serializers.Serializer):
     house = serializers.CharField()
     category = serializers.CharField()
@@ -63,6 +69,7 @@ class ParsedAddressSerializer(serializers.Serializer):
 
 
 class GeocodeResultSerializer(serializers.Serializer):
+    address_url = serializers.HyperlinkedIdentityField(view_name='address-detail', read_only=True, lookup_field='address_detail_pid')
     address_detail_pid = serializers.CharField()
     latitude = serializers.CharField()
     longitude = serializers.CharField()

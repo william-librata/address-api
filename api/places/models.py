@@ -440,3 +440,57 @@ class StreetTypeAut(models.Model):
     class Meta:
         managed = True
         db_table = 'street_type_aut'
+
+
+class Address(models.Model):
+    address_detail_pid = models.CharField(primary_key=True, max_length=15)
+    date_created = models.DateField(blank=True, null=True)
+    date_last_modified = models.DateField(blank=True, null=True)
+    date_retired = models.DateField(blank=True, null=True)
+    building_name = models.CharField(max_length=200, blank=True, null=True)
+    lot_number_prefix = models.CharField(max_length=2, blank=True, null=True)
+    lot_number = models.CharField(max_length=5, blank=True, null=True)
+    lot_number_suffix = models.CharField(max_length=2, blank=True, null=True)
+    lot_number_combined = models.TextField(blank=True, null=True)
+    flat_type_code = models.CharField(max_length=7, blank=True, null=True)
+    flat_number_prefix = models.CharField(max_length=2, blank=True, null=True)
+    flat_number = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
+    flat_number_suffix = models.CharField(max_length=2, blank=True, null=True)
+    flat_number_combined = models.TextField(blank=True, null=True)
+    level_type_code = models.CharField(max_length=4, blank=True, null=True)
+    level_number_prefix = models.CharField(max_length=2, blank=True, null=True)
+    level_number = models.DecimalField(max_digits=3, decimal_places=0, blank=True, null=True)
+    level_number_suffix = models.CharField(max_length=2, blank=True, null=True)
+    level_number_combined = models.TextField(blank=True, null=True)
+    number_first_prefix = models.CharField(max_length=3, blank=True, null=True)
+    number_first = models.DecimalField(max_digits=6, decimal_places=0, blank=True, null=True)
+    number_first_suffix = models.CharField(max_length=2, blank=True, null=True)
+    number_first_combined = models.TextField(blank=True, null=True)
+    number_last_prefix = models.CharField(max_length=3, blank=True, null=True)
+    number_last = models.DecimalField(max_digits=6, decimal_places=0, blank=True, null=True)
+    number_last_suffix = models.CharField(max_length=2, blank=True, null=True)
+    number_last_combined = models.TextField(blank=True, null=True)
+    house_number = models.TextField(blank=True, null=True)
+    street_locality_pid = models.CharField(max_length=15, blank=True, null=True)
+    street_name = models.CharField(max_length=100, blank=True, null=True)
+    street_type = models.CharField(max_length=50, blank=True, null=True)
+    street_suffix_code = models.CharField(max_length=15, blank=True, null=True)
+    street_suffix_name = models.CharField(max_length=50, blank=True, null=True)
+    street = models.TextField(blank=True, null=True)
+    locality_pid = models.CharField(max_length=15, blank=True, null=True)
+    locality_name = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=3, blank=True, null=True)
+    alias_principal = models.CharField(max_length=1, blank=True, null=True)
+    postcode = models.CharField(max_length=4, blank=True, null=True)
+    confidence = models.DecimalField(max_digits=1, decimal_places=0, blank=True, null=True)
+    address_site_pid = models.CharField(max_length=15, blank=True, null=True)
+    address_type_name = models.CharField(max_length=50, blank=True, null=True)
+    address_site_name = models.CharField(max_length=200, blank=True, null=True)
+    level_geocoded_code = models.DecimalField(max_digits=2, decimal_places=0, blank=True, null=True)
+    primary_secondary = models.CharField(max_length=1, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'address'
