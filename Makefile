@@ -13,6 +13,8 @@ init:
 	sudo apt-get install libtool -y; \
 	sudo apt-get install python-dev -y; \
 	sudo apt-get install pkg-config -y; \
+	sudo apt-get install apache2 -y; \
+	sudo apt-get install libapache2-mod-wsgi -y; \
 
 	# install libpostal
 	libpostal_dir=/usr/src/libpostal; \
