@@ -36,7 +36,6 @@ class UserList(APIView):
 
     def get(self, request, format=None):
         user = User.objects.all()
-        import pdb;pdb.set_trace()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
 
@@ -108,6 +107,7 @@ class AddressViewSet(viewsets.ModelViewSet):
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
     permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'address_detail_pid'
 
 
 class ParseAddressViewSet(mixins.RetrieveModelMixin,
@@ -136,16 +136,23 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
                         renderers.BrowsableAPIRenderer]
 
     lookup_field = 'address'
-    serializer_class = GeocodeResultSerializer
+    serializer_class = AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
 
     def retrieve(self, request, address, *args, **kwargs):
         try:
             # geocode address
             geocoded_address = helper.geocode_address(address)
+            address = Address.objects.get(address_detail_pid=geocoded_address['address_detail_pid'])
             serializer_context = {'request': request}
-            serializer = GeocodeResultSerializer(geocoded_address, context=serializer_context)
+            serializer = GeocodeResultSerializer(address, context=serializer_context)
             return Response(serializer.data)
 
         except ProgrammingError as pe:
-            return Response({'detail': 'Geocode function not found. Install geocoder from https://github.com/william-librata/geocoder'},
+            return Response({'Error': 'Geocode function not found. Install geocoder from https://github.com/william-librata/geocoder'},
+                            status.HTTP_424_FAILED_DEPENDENCY)
+
+        except Address.DoesNotExist as dne:
+            return Response({'Error': 'Address not found.'},
                             status.HTTP_404_NOT_FOUND)

@@ -39,10 +39,15 @@ class GeocodeReliabilityAutSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class AddressSerializer(serializers.ModelSerializer):
+class AddressSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='address-detail', lookup_field='address_detail_pid')
+
     class Meta:
         model = Address
-        fields = '__all__'
+        fields = ['url', 'address_detail_pid', 'date_created', 'date_last_modified', 'date_retired', 'building_name',
+                  'lot_number_combined', 'flat_number_combined', 'level_number_combined',
+                  'house_number', 'street_name', 'street_type', 'street_suffix_name', 'street',
+                  'locality_name', 'state', 'postcode', 'latitude', 'longitude']
 
 
 class ParsedAddressSerializer(serializers.Serializer):
@@ -68,8 +73,9 @@ class ParsedAddressSerializer(serializers.Serializer):
     world_region = serializers.CharField()
 
 
-class GeocodeResultSerializer(serializers.Serializer):
-    address_url = serializers.HyperlinkedIdentityField(view_name='address-detail', read_only=True, lookup_field='address_detail_pid')
-    address_detail_pid = serializers.CharField()
-    latitude = serializers.CharField()
-    longitude = serializers.CharField()
+class GeocodeResultSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='address-detail', lookup_field='address_detail_pid')
+
+    class Meta:
+        model = Address
+        fields = ['url', 'address_detail_pid', 'latitude', 'longitude']

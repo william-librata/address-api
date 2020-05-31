@@ -492,5 +492,5 @@ class Address(models.Model):
     longitude = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'address'
