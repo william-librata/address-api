@@ -61,6 +61,13 @@ def dict_fetchone(cursor):
 
 def geocode_address(address):
     parsed_address = parse_address(address)
+
+    # check if there are enough info geocode address
+    if parsed_address['suburb'] is None and \
+       parsed_address['state'] is None and \
+       parsed_address['postcode'] is None:
+        raise NotEnoughInformation
+
     param = list(parsed_address.values())
 
     with connection.cursor() as cur:
@@ -68,3 +75,11 @@ def geocode_address(address):
         result = dict_fetchone(cur)
     return result
 
+
+class NotEnoughInformation(Exception):
+    def __init__(self, message="Not enough information to geocode address. Add more details."):
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return self.message

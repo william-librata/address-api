@@ -156,3 +156,7 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
         except Address.DoesNotExist as dne:
             return Response({'Error': 'Address not found.'},
                             status.HTTP_404_NOT_FOUND)
+
+        except helper.NotEnoughInformation as nei:
+            return Response({'Error': nei.message},
+                            status.HTTP_400_BAD_REQUEST)
