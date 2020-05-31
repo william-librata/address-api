@@ -42,4 +42,4 @@ test:
 	# run unit test
 	python3 -m unittest discover tests; \
 
-.PHONY: init test docs install erd
+.PHONY: init test
