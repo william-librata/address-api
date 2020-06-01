@@ -6,4 +6,4 @@ pyyaml
 uritemplate
 django-oauth-toolkit
 postal
-
+mod-wsgi
