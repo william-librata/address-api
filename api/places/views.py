@@ -1,16 +1,15 @@
 from rest_framework import status
-from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 
 from django.db.utils import ProgrammingError
 from django.http import Http404
 from django.contrib.auth.models import User
-
 
 from places import helper
 from places.models import State, Locality, LocalityClassAut, GeocodeReliabilityAut, Address
@@ -32,7 +31,6 @@ class UserList(APIView):
     """
     List all user
     """
-    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, format=None):
         user = User.objects.all()
@@ -44,7 +42,6 @@ class UserDetail(APIView):
     """
     List a single user detail
     """
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, username):
         try:
@@ -64,8 +61,6 @@ class StateViewSet(viewsets.ModelViewSet):
     """
     queryset = State.objects.all()
     serializer_class = StateSerializer
-    #authentication_classes = [SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'state_pid'
 
 
@@ -78,7 +73,6 @@ class LocalityViewSet(viewsets.ModelViewSet):
         select_related('locality_class_code').\
         select_related('gnaf_reliability_code')
     serializer_class = LocalitySerializer
-    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'locality_pid'
 
 
@@ -88,7 +82,6 @@ class LocalityClassAutViewSet(viewsets.ModelViewSet):
     """
     queryset = LocalityClassAut.objects.all()
     serializer_class = LocalityClassAutSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
 class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
@@ -97,7 +90,6 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     """
     queryset = GeocodeReliabilityAut.objects.all()
     serializer_class = GeocodeReliabilityAutSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
 class AddressViewSet(viewsets.ModelViewSet):
@@ -106,7 +98,6 @@ class AddressViewSet(viewsets.ModelViewSet):
     """
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
-    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'address_detail_pid'
 
 
@@ -128,7 +119,7 @@ class ParseAddressViewSet(mixins.RetrieveModelMixin,
 
 
 class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
-                     viewsets.GenericViewSet):
+                            viewsets.GenericViewSet):
     """
     Geocode address view set
     """
@@ -137,8 +128,7 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
 
     lookup_field = 'address'
     serializer_class = AddressSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+    authentication_classes = [SessionAuthentication]
 
     def retrieve(self, request, address, *args, **kwargs):
         try:
