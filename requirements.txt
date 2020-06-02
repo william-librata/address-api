@@ -1,9 +1,8 @@
 django
 djangorestframework
-djangorestframework-simplejwt
 psycopg2
 pyyaml
 uritemplate
-django-oauth-toolkit
 postal
 mod-wsgi
+djangorestframework-api-key
