@@ -1,5 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
+from rest_framework.authtoken import views as authtokenviews
 
 from places import views
 
@@ -14,6 +15,7 @@ router.register(r'parse', views.ParseAddressViewSet, basename='parse')
 router.register(r'state', views.StateViewSet)
 
 urlpatterns = [
+    path('api-token/', authtokenviews.obtain_auth_token),
     path('user/', views.UserList.as_view(), name='user-list'),
     path('', include(router.urls)),
     path('', views.APIRoot.as_view()),

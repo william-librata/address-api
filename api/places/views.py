@@ -5,9 +5,8 @@ from rest_framework import mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_api_key.permissions import HasAPIKey
 
 from django.db.utils import ProgrammingError
 from django.http import Http404
@@ -130,8 +129,8 @@ class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
 
     lookup_field = 'address'
     serializer_class = AddressSerializer
-    authentication_classes = [SessionAuthentication]
-    permission_classes = [HasAPIKey | IsAuthenticated]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, address, *args, **kwargs):
         try:
