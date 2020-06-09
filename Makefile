@@ -40,8 +40,8 @@ init:
 	pip3 install -r requirements.txt; \
 
 test:
-	. env/bin/activate; \
 	# run unit test
-	python3 -m unittest discover tests; \
+	cd api; \
+	python3 manage.py test --keepdb; \
 
 .PHONY: init test

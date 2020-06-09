@@ -60,7 +60,7 @@ class StateViewSet(viewsets.ModelViewSet):
     """
     State view set
     """
-    queryset = State.objects.all()
+    queryset = State.objects.all().order_by('state_pid')
     serializer_class = StateSerializer
     lookup_field = 'state_pid'
 
@@ -72,7 +72,8 @@ class LocalityViewSet(viewsets.ModelViewSet):
     queryset = Locality.objects.\
         select_related('state_pid').\
         select_related('locality_class_code').\
-        select_related('gnaf_reliability_code')
+        select_related('gnaf_reliability_code').\
+        order_by('locality_pid')
     serializer_class = LocalitySerializer
     lookup_field = 'locality_pid'
 
