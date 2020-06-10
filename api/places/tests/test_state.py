@@ -17,13 +17,34 @@ class StateTestCase(TestCase):
 
     def test_state_list_api(self):
         user = User.objects.get(username='api_user')
-
         client = APIClient()
         client.force_authenticate(user=user)
-
         response = client.get('/state/')
-
         self.assertEqual(len(response.data['results']), 2)
         self.assertEqual(response.data['results'][0]['state_abbreviation'], 'TS1')
+        self.assertEqual(response.data['results'][1]['state_abbreviation'], 'TS2')
 
+    def test_state_list_api_not_authenticated(self):
+        client = APIClient()
+        response = client.get('/state/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_state_detail_api(self):
+        user = User.objects.get(username='api_user')
+        client = APIClient()
+        client.force_authenticate(user=user)
+        response = client.get('/state/TEST1/')
+        self.assertEqual(response.data['state_abbreviation'], 'TS1')
+
+    def test_state_detail_api_not_authenticated(self):
+        client = APIClient()
+        response = client.get('/state/TEST1/')
+        self.assertEqual(response.status_code, 403)
+
+    def test_state_detail_api_not_exist(self):
+        user = User.objects.get(username='api_user')
+        client = APIClient()
+        client.force_authenticate(user=user)
+        response = client.get('/state/TS9/')
+        self.assertEqual(response.status_code, 404)
 
