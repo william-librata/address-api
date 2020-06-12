@@ -1,7 +1,7 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 
-from places.models import State
+from places.models import State, Locality, Geocode
 from django.contrib.auth.models import User
 
 
@@ -14,6 +14,9 @@ class StateTestCase(TestCase):
 
         State.objects.create(state_pid='TEST2', date_created='2020-06-01',
                              state_name='Test2 State', state_abbreviation='TS2')
+
+
+
 
     def test_state_list_api(self):
         user = User.objects.get(username='api_user')
