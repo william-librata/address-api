@@ -98,7 +98,7 @@ class AddressViewSet(viewsets.ModelViewSet):
     """
     Address view set
     """
-    queryset = Address.objects.all()
+    queryset = Address.objects.all().order_by('address_detail_pid')
     serializer_class = AddressSerializer
     lookup_field = 'address_detail_pid'
 
