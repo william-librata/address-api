@@ -82,7 +82,7 @@ class LocalityClassAutViewSet(viewsets.ModelViewSet):
     """
     Locality class aut view set
     """
-    queryset = LocalityClassAut.objects.all()
+    queryset = LocalityClassAut.objects.all().order_by('code')
     serializer_class = LocalityClassAutSerializer
 
 
@@ -90,7 +90,7 @@ class GeocodeReliabilityAutViewSet(viewsets.ModelViewSet):
     """
     Geocode reliability aut view set
     """
-    queryset = GeocodeReliabilityAut.objects.all()
+    queryset = GeocodeReliabilityAut.objects.all().order_by('code')
     serializer_class = GeocodeReliabilityAutSerializer
 
 

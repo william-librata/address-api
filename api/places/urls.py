@@ -17,6 +17,7 @@ router.register(r'state', views.StateViewSet)
 urlpatterns = [
     path('api-token/', authtokenviews.obtain_auth_token),
     path('user/', views.UserList.as_view(), name='user-list'),
+    path('user/<str:username>/', views.UserDetail.as_view(), name='user-detail'),
     path('', include(router.urls)),
     path('', views.APIRoot.as_view()),
 ]
