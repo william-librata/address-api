@@ -2,6 +2,7 @@ from postal.parser import parse_address as postal_parse_address
 from psycopg2.extras import RealDictCursor
 from django.db import connection
 
+
 def get_parsed_address_schema():
     return {
             'house': None,
@@ -26,6 +27,7 @@ def get_parsed_address_schema():
             'world_region': None
     }
 
+
 def get_geocode_result_schema():
     return {
             'address_detail_pid': None,
@@ -33,13 +35,29 @@ def get_geocode_result_schema():
             'longitude': None
     }
 
+
 def parse_address(address):
+
+    def post_processing(result):
+        # remove unit number from house number
+        # if house number = '2 / 1', unit number is '2' and house number is '1'
+        if '/' in result['house_number']:
+            unit, house_number = (r.strip() for r in result['house_number'].split('/'))
+            result['house_number'] = house_number
+            result['unit'] = (str(result['unit'] or '') + ' ' + unit).strip()
+
+        return result
+
     # reverse named tuple
     result = dict((y, x.upper()) for x, y in postal_parse_address(address))
 
     # for every item in base schema, if corresponds with parsed_address, then get parsed_address value
     # else, get base_schema value which is None
     result = dict((k, result.get(k, get_parsed_address_schema().get(k))) for k, v in get_parsed_address_schema().items())
+
+    # post processing
+    result = post_processing(result)
+
     return result
 
 
