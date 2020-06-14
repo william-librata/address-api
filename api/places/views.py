@@ -103,37 +103,23 @@ class AddressViewSet(viewsets.ModelViewSet):
     lookup_field = 'address_detail_pid'
 
 
-class ParseAddressViewSet(mixins.RetrieveModelMixin,
-                          viewsets.GenericViewSet):
+class ParseAddress(APIView):
     """
-    Parse address view set
+    Parse address view
     """
-    renderer_classes = [renderers.JSONRenderer,
-                        renderers.BrowsableAPIRenderer]
 
-    lookup_field = 'address'
-    serializer_class = ParsedAddressSerializer
-
-    def retrieve(self, request, address, *args, **kwargs):
+    def get(self, request, address, format=None):
         parsed_address = helper.parse_address(address)
         serializer = ParsedAddressSerializer(parsed_address)
         return Response(serializer.data)
 
 
-class GeocodeAddressViewSet(mixins.RetrieveModelMixin,
-                            viewsets.GenericViewSet):
+class GeocodeAddress(APIView):
     """
     Geocode address view set
     """
-    renderer_classes = [renderers.JSONRenderer,
-                        renderers.BrowsableAPIRenderer]
 
-    lookup_field = 'address'
-    serializer_class = AddressSerializer
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def retrieve(self, request, address, *args, **kwargs):
+    def get(self, request, address, format=None):
         try:
             # geocode address
             geocoded_address = helper.geocode_address(address)
