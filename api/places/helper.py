@@ -41,10 +41,31 @@ def parse_address(address):
     def post_processing(result):
         # remove unit number from house number
         # if house number = '2 / 1', unit number is '2' and house number is '1'
-        if '/' in result['house_number']:
+        if '/' in result['house_number'] and len(result['house_number'].split('/')) == 2:
             unit, house_number = (r.strip() for r in result['house_number'].split('/'))
             result['house_number'] = house_number
             result['unit'] = (str(result['unit'] or '') + ' ' + unit).strip()
+
+        # remove unit number and level from house number
+        # if house number = '3/UNIT 2 / 1' and level = 'LEVEL', unit number is 'UNIT 2', level is 'LEVEL 3' and house number is '1'
+        if '/' in result['house_number'] and len(result['house_number'].split('/')) == 3 and result['level'] == 'LEVEL':
+            level, unit, house_number = (r.strip() for r in result['house_number'].split('/'))
+            result['level'] = result['level'] + ' ' + level
+            result['unit'] = (str(result['unit'] or '') + ' ' + unit).strip()
+            result['house_number'] = house_number
+
+        # remove unit number from house number
+        # if house number = '2 1', unit number is '2' and house number is '1'
+        if ' ' in result['house_number'] and len(result['house_number'].split(' ')) == 2:
+            unit, house_number = (r.strip() for r in result['house_number'].split(' '))
+            result['house_number'] = house_number
+            result['unit'] = (str(result['unit'] or '') + ' ' + unit).strip()
+
+        # move level number from unit number
+        # if unit number = '1' and level = 'LEVEL', unit number is None and level number is 'LEVEL 1'
+        if result['unit'] and result['level'] == 'LEVEL':
+            result['level'] = result['level'] + ' ' + result['unit']
+            result['unit'] = None
 
         return result
 
