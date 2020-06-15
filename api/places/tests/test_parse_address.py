@@ -15,12 +15,12 @@ class ParseAddressTestCase(TestCase):
         response = client.get('/parse/')
         self.assertEqual(response.status_code, 404)
 
-    def test_parse_address_detail_api_not_authenticated(self):
+    def test_parse_address_api_not_authenticated(self):
         client = APIClient()
         response = client.get('/parse/1 test street southbank 3006/')
         self.assertEqual(response.status_code, 403)
 
-    def test_parse_address_detail_api_address_without_unit_number(self):
+    def test_parse_address_api_address_without_unit_number(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -46,7 +46,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_without_unit_type_separated_by_comma(self):
+    def test_parse_address_api_address_with_unit_number_without_unit_type_separated_by_comma(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -72,7 +72,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_without_unit_type_separated_by_forward_slash(self):
+    def test_parse_address_api_address_with_unit_number_without_unit_type_separated_by_forward_slash(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -98,7 +98,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_separated_by_comma(self):
+    def test_parse_address_api_address_with_unit_number_separated_by_comma(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -124,7 +124,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_separated_by_forward_slash(self):
+    def test_parse_address_api_address_with_unit_number_separated_by_forward_slash(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -150,7 +150,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_lot_number_separated_by_comma(self):
+    def test_parse_address_api_address_with_lot_number_separated_by_comma(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -176,7 +176,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_lot_number_separated_by_forward_slash(self):
+    def test_parse_address_api_address_with_lot_number_separated_by_forward_slash(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -202,7 +202,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_level_number_separated_by_comma(self):
+    def test_parse_address_api_address_with_level_number_separated_by_comma(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -228,7 +228,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_level_number_separated_by_forward_slash(self):
+    def test_parse_address_api_address_with_level_number_separated_by_forward_slash(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -254,7 +254,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_and_level_number_separated_by_comma(self):
+    def test_parse_address_api_address_with_unit_number_and_level_number_separated_by_comma(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
@@ -280,7 +280,7 @@ class ParseAddressTestCase(TestCase):
         self.assertEqual(response.data['country'], None)
         self.assertEqual(response.data['world_region'], None)
 
-    def test_parse_address_detail_api_address_with_unit_number_and_level_number_separated_by_forward_slash(self):
+    def test_parse_address_api_address_with_unit_number_and_level_number_separated_by_forward_slash(self):
         user = User.objects.get(username='api_user')
         client = APIClient()
         client.force_authenticate(user=user)
