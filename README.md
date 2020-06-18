@@ -1,4 +1,4 @@
-Address API
+Places API
 ===========
 
 Introduction
@@ -13,8 +13,8 @@ Setup
 1. To install (currently only for ubuntu):
     ```
     # clone project
-    git clone git@github.com:william-librata/address-api.git
-    cd address-api
+    git clone git@github.com:william-librata/places-api.git
+    cd places-api
     
     # create and activate virtual env
     python3 -m venv env 
