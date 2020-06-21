@@ -44,4 +44,9 @@ test:
 	cd api; \
 	python3 manage.py test --keepdb; \
 
+database:
+	# create database schema
+	cd api; \
+	python3 manage.py migrate; \
+
 .PHONY: init test

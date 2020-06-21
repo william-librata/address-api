@@ -22,6 +22,9 @@ Setup
     
     # install dependencies
     make
+   
+    # setup database schema
+    make database
     ```
     
 1. To run test:
@@ -42,9 +45,19 @@ Setup
     cd api
     ./manage.py runserver
     ```
+1. Open your browser and go to:
+    ```
+    http://127.0.0.1:8000/
+    ```
 
 1. API documentation can be accessed through:
     ```
     <your URL>/swagger-ui/
     ``` 
-   
+  
+1. To create ERD:
+    1. Install Java
+    1. Run:
+    ```
+	java -jar bin/schemaSpy_5.0.0.jar -t pgsql -db <database name> -host <host name> -s <schema name> -u <user name> -p <password> -o <output path> -dp bin/postgresql-42.2.2.jar
+    ``` 
