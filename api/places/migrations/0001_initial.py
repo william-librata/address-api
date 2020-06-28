@@ -583,10 +583,10 @@ class Migration(migrations.Migration):
                 ('address_default_geocode_pid', models.CharField(max_length=15, primary_key=True, serialize=False)),
                 ('date_created', models.DateField()),
                 ('date_retired', models.DateField(blank=True, null=True)),
-                ('longitude', models.DecimalField(blank=True, decimal_places=8, max_digits=11, null=True)),
-                ('latitude', models.DecimalField(blank=True, decimal_places=8, max_digits=10, null=True)),
                 ('address_detail_pid', models.ForeignKey(db_column='address_detail_pid', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='places.AddressDetail')),
                 ('geocode_type_code', models.ForeignKey(db_column='geocode_type_code', null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='places.GeocodeTypeAut')),
+                ('longitude', models.DecimalField(blank=True, decimal_places=8, max_digits=11, null=True)),
+                ('latitude', models.DecimalField(blank=True, decimal_places=8, max_digits=10, null=True)),
             ],
             options={
                 'db_table': 'address_default_geocode',

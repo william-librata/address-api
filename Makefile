@@ -31,9 +31,6 @@ init:
 	sudo ldconfig; \
 	cd $$current_dir; \
 
-	# source venv
-	source env/bin/activate; \
-
 	# install all necessary packages
 	pip3 install --upgrade wheel; \
 	pip3 install --upgrade setuptools; \
